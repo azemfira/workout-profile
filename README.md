@@ -80,8 +80,7 @@ python -m unittest discover -s tests -v
 краевые случаи) + сквозной прогон пайплайна со stub-интерпретатором. Внешних
 зависимостей и сети не требуется.
 
-### Живой LLM-вызов (опционально)
-
+### Живой LLM-вызов 
 ```bash
 pip install anthropic
 export ANTHROPIC_API_KEY=sk-...
