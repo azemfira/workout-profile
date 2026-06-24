@@ -1,0 +1,60 @@
+# =====================================================================
+# Structural flags + equipment level — DECLARATIVE RULES.
+#
+# A tiny rule engine in code (src/classify.py) evaluates these; the rules
+# themselves are data. Each flag is true iff ALL of its conditions hold.
+#
+# Condition operators:
+#   any_of   : at least one of `values` is present in the field's codes
+#   all_of   : every code in `values` is present
+#   none_of  : none of `values` is present
+#   equals   : the field's (single) code equals values[0]
+#
+# `field` refers to a question id (its normalized code list).
+#
+# To add a flag: add an entry here. No code change needed unless you need a
+# brand-new operator. (`needs_human_review` is intentionally NOT here — it is
+# a cross-cutting safety flag computed in code from several signals incl. the
+# LLM output; see design.md.)
+# =====================================================================
+
+flags:
+  has_gym_access:
+    - { field: locations, op: any_of, values: [gym] }
+
+  bodyweight_only:                       # no access to any load
+    - { field: locations, op: none_of, values: [gym, home_dumbbells] }
+
+  home_only:                             # trains only at home
+    - { field: locations, op: none_of, values: [gym, outdoor] }
+
+  outdoor_available:
+    - { field: locations, op: any_of, values: [outdoor] }
+
+  short_sessions:
+    - { field: session_minutes, op: equals, values: [min_15_20] }
+
+  long_sessions:
+    - { field: session_minutes, op: equals, values: [min_60_plus] }
+
+  low_frequency:
+    - { field: frequency, op: equals, values: [freq_1_2] }
+
+  is_rehab_focus:
+    - { field: goal, op: equals, values: [injury_recovery] }
+
+  is_pregnant:
+    - { field: limitations, op: any_of, values: [pregnancy] }
+
+  medical_clearance_recommended:         # cardiovascular risk or pregnancy
+    - { field: limitations, op: any_of, values: [heart_pressure, pregnancy] }
+
+# ---------------------------------------------------------------------
+# Equipment level: ordered rules, first match wins. Returns an enum the
+# plan builder uses to pick exercise variations.
+# ---------------------------------------------------------------------
+equipment_level:
+  rules:
+    - { level: full,    field: locations, op: any_of, values: [gym] }
+    - { level: minimal, field: locations, op: any_of, values: [home_dumbbells] }
+  default: none

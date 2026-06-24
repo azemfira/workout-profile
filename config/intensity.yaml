@@ -1,0 +1,38 @@
+# =====================================================================
+# Intensity level — TUNABLE PARAMETERS for the scoring procedure.
+#
+# The algorithm lives in code (src/classify.py); the *numbers* live here.
+# Each relevant answer code contributes points; points are summed and
+# mapped to a band by the thresholds below.
+#
+#   total = points[experience] + points[frequency] + points[session_minutes]
+#
+# Design note (intentional, see design.md):
+#   A novice maxes out at experience=0, so the highest total they can reach
+#   is 0 + 2 + 2 = 4, which lands in "moderate". A beginner therefore can
+#   never be auto-classified "high" intensity — a safety property that falls
+#   out of the config, not a hard-coded special case.
+# =====================================================================
+
+points:
+  experience:
+    novice: 0
+    intermediate: 1
+    advanced: 2
+  frequency:
+    freq_1_2: 0
+    freq_3_4: 1
+    freq_5_plus: 2
+  session_minutes:
+    min_15_20: 0
+    min_30_40: 1
+    min_60_plus: 2
+
+# Bands are checked in order; first one whose [min, max] contains the total wins.
+bands:
+  - { level: low,      min: 0, max: 1 }
+  - { level: moderate, min: 2, max: 4 }
+  - { level: high,     min: 5, max: 6 }
+
+# Conservative fallback level if drivers are missing.
+default_level: low

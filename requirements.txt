@@ -1,0 +1,6 @@
+# Required for the deterministic core (config loading).
+PyYAML>=6.0
+
+# Optional — only needed to use the LIVE free-text interpreter.
+# The pipeline and all tests run without it (offline stub is used).
+anthropic>=0.40.0

@@ -1,0 +1,74 @@
+# =====================================================================
+# Survey definition — THE single source of truth for the questionnaire.
+#
+# Each question has:
+#   id      : stable machine key used everywhere downstream (never shown to user)
+#   text    : the human label as it arrives in `survey_answers` (used to match input)
+#   type    : single | multi | text
+#   options : list of {label, code}
+#               - label : exact text that arrives in the answers array
+#               - code  : stable machine code we normalize the label to
+#
+# To add / rename / reorder a question, edit ONLY this file (+ the mapping
+# files that reference its codes). No procedural code changes required.
+# =====================================================================
+
+questions:
+  - id: goal
+    text: "Главная цель"
+    type: single
+    options:
+      - { label: "Похудеть",                   code: lose_weight }
+      - { label: "Набрать мышцы",               code: build_muscle }
+      - { label: "Выносливость",                code: endurance }
+      - { label: "Поддерживать форму",          code: maintain }
+      - { label: "Восстановиться после травмы", code: injury_recovery }
+
+  - id: locations
+    text: "Где занимаешься"
+    type: multi
+    options:
+      - { label: "Дома без оборудования", code: home_no_equipment }
+      - { label: "Дома с гантелями",      code: home_dumbbells }
+      - { label: "В зале",                code: gym }
+      - { label: "На улице",              code: outdoor }
+
+  - id: frequency
+    text: "Сколько раз в неделю"
+    type: single
+    options:
+      - { label: "1–2", code: freq_1_2 }
+      - { label: "3–4", code: freq_3_4 }
+      - { label: "5+",  code: freq_5_plus }
+
+  - id: experience
+    text: "Опыт"
+    type: single
+    options:
+      - { label: "Новичок",     code: novice }
+      - { label: "Средний",     code: intermediate }
+      - { label: "Продвинутый", code: advanced }
+
+  - id: limitations
+    text: "Ограничения / травмы"
+    type: multi
+    options:
+      - { label: "Спина",           code: back }
+      - { label: "Колени",          code: knees }
+      - { label: "Плечи",           code: shoulders }
+      - { label: "Сердце/давление", code: heart_pressure }
+      - { label: "Беременность",    code: pregnancy }
+      - { label: "Нет",             code: none }
+
+  - id: session_minutes
+    text: "Минут на тренировку"
+    type: single
+    options:
+      - { label: "15–20", code: min_15_20 }
+      - { label: "30–40", code: min_30_40 }
+      - { label: "60+",   code: min_60_plus }
+
+  - id: free_text
+    text: "Свободное поле"
+    type: text
+    options: []

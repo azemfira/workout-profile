@@ -1,0 +1,23 @@
+# =====================================================================
+# Goal classification.
+#
+# Maps the normalized goal code (from questions.yaml) to a richer,
+# downstream-friendly object: the canonical goal plus a `focus` tag the
+# plan builder can switch on. This is pure data — add a new goal by adding
+# a row here (after adding its option in questions.yaml).
+# =====================================================================
+
+goals:
+  lose_weight:
+    focus: fat_loss
+  build_muscle:
+    focus: hypertrophy
+  endurance:
+    focus: cardiovascular
+  maintain:
+    focus: general_fitness
+  injury_recovery:
+    focus: rehabilitation
+
+# Used when the goal answer is missing or unrecognized (see edge_cases.md).
+default_goal: maintain

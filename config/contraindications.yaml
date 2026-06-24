@@ -1,0 +1,53 @@
+# =====================================================================
+# Contraindications.
+#
+# `exercise_types` is the CONTROLLED VOCABULARY of movement tags the plan
+# builder understands. The interpretation layer only ever emits tags from
+# this list, so the contract between the two services stays stable.
+#
+# `map` translates each limitation/injury code (from questions.yaml) into the
+# set of exercise-type tags that should be EXCLUDED from the plan.
+#
+# This is a deliberately simplified, conservative mapping for a take-home —
+# NOT medical advice. Real deployment needs clinician review. See edge_cases.md.
+# =====================================================================
+
+exercise_types:
+  - high_impact            # running, jumping — repeated ground impact
+  - plyometric             # explosive jump training
+  - heavy_spinal_load      # heavy axial loading (heavy squats/deadlifts)
+  - loaded_spinal_flexion  # bending the loaded spine (e.g. weighted sit-ups)
+  - deep_knee_flexion      # deep squats / deep lunges
+  - overhead_press         # pressing load overhead
+  - max_effort             # near-maximal (1RM-style) exertion
+  - valsalva               # breath-holding under heavy load
+  - supine_position        # lying flat on the back
+  - prone_position         # lying flat on the front
+  - inversion              # head-below-heart positions
+  - contact                # contact / collision work
+
+map:
+  back:
+    - heavy_spinal_load
+    - loaded_spinal_flexion
+    - high_impact
+  knees:
+    - deep_knee_flexion
+    - plyometric
+    - high_impact
+  shoulders:
+    - overhead_press
+  heart_pressure:
+    - max_effort
+    - valsalva
+    - high_impact
+    - inversion
+  pregnancy:
+    - supine_position
+    - prone_position
+    - high_impact
+    - valsalva
+    - contact
+    - inversion
+    - max_effort
+  none: []
